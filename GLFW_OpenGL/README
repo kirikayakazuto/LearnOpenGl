@@ -1,0 +1,58 @@
+//    // 顶点着色器
+//    unsigned int vertexShader;
+//    vertexShader = glad_glCreateShader(GL_VERTEX_SHADER);
+//
+//    glad_glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+//    glad_glCompileShader(vertexShader);
+//
+//    int success;
+//    char infoLog[512];
+//    glad_glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+//    if(!success) {
+//        glad_glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+//        std::cout << "ERROR IN Vertex Shader \n" << infoLog << std:: endl;
+//    }
+//
+//    // 片段着色器
+//    unsigned int fragmentShader;
+//    fragmentShader = glad_glCreateShader(GL_FRAGMENT_SHADER);
+//
+//    glad_glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+//    glad_glCompileShader(fragmentShader);
+//
+//    glad_glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+//    if(!success) {
+//        glad_glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+//        std::cout << "ERROR IN Fragment Shader \n" << infoLog << std:: endl;
+//    }
+//
+//    // 着色器对象
+//    unsigned int shaderProgram;
+//    shaderProgram = glad_glCreateProgram();
+//    glad_glAttachShader(shaderProgram, vertexShader);
+//    glad_glAttachShader(shaderProgram, fragmentShader);
+//    glad_glLinkProgram(shaderProgram);
+//
+//    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+//    if(!success) {
+//        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+//        std::cout << "ERROR IN program Shader \n" << infoLog << std:: endl;
+//    }
+//
+//    // 删除无用的shader
+//    glad_glDeleteShader(vertexShader);
+//    glad_glDeleteShader(fragmentShader);
+
+
+        // 使用shader
+//        glad_glUseProgram(shaderProgram);
+        
+        
+        
+        // 向shaderProgram中传递参数 -- outColor
+//        float timeValue = glfwGetTime();
+//        float greenValue = sin(timeValue) / 2.0f + 0.5f;
+//        std:: cout << greenValue << std::endl;
+//        int vertexColorLocation = glad_glGetUniformLocation(shaderProgram, "outColor");
+//        glad_glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
