@@ -13,6 +13,33 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 void testForGlm();
 
+void bindTexture(const char* path, GLenum type, int idx) {
+    // 绑定纹理
+    unsigned int texture;
+    glad_glGenTextures(1, &texture);
+    glad_glActiveTexture(GL_TEXTURE0 + idx);
+    glad_glBindTexture(GL_TEXTURE_2D, texture);
+    
+    // 为当前绑定的纹理对象设置环绕、过滤方式
+    glad_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glad_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glad_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glad_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // 读取图片数据
+    int width, height, nrChannels;
+    stbi_set_flip_vertically_on_load(true);
+    unsigned char *data = stbi_load(path, &width, &height, &nrChannels, 0);
+    if(data) {
+        // 生成纹理
+        glad_glTexImage2D(GL_TEXTURE_2D, 0, type, width, height, 0, type, GL_UNSIGNED_BYTE, data);
+        glad_glGenerateMipmap(GL_TEXTURE_2D);
+    }else {
+        std::cout << "ERROR read image data " << std::endl;
+    }
+
+    stbi_image_free(data);
+}
+
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -127,52 +154,8 @@ int main()
     glad_glBindBuffer(GL_ARRAY_BUFFER, 0);
     glad_glBindVertexArray(0);
     
-
-    // 绑定纹理
-    unsigned int texture0, texture1;
-    glad_glGenTextures(1, &texture0);
-    glad_glActiveTexture(GL_TEXTURE0);
-    glad_glBindTexture(GL_TEXTURE_2D, texture0);
-    
-    // 为当前绑定的纹理对象设置环绕、过滤方式
-    glad_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glad_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glad_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glad_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // 读取图片数据
-    int width, height, nrChannels;
-    stbi_set_flip_vertically_on_load(true);
-    unsigned char *data = stbi_load("/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/images/wall.jpg", &width, &height, &nrChannels, 0);
-    if(data) {
-        // 生成纹理
-        glad_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glad_glGenerateMipmap(GL_TEXTURE_2D);
-    }else {
-        std::cout << "ERROR read image1 data " << std::endl;
-    }
-
-    stbi_image_free(data);
-    
-    glad_glGenTextures(1, &texture1);
-    glad_glActiveTexture(GL_TEXTURE1);
-    glad_glBindTexture(GL_TEXTURE_2D, texture1);
-    // 为当前绑定的纹理对象设置环绕、过滤方式
-    glad_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glad_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glad_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glad_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    
-    data = stbi_load("/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/images/awesomeface.png", &width, &height, &nrChannels, 0);
-    if(data) {
-        // 生成纹理
-        glad_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        glad_glGenerateMipmap(GL_TEXTURE_2D);
-    }else {
-        std::cout << "ERROR read image2 data " << std::endl;
-    }
-    
-    stbi_image_free(data);
-    
+    bindTexture("/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/images/wall.jpg", GL_RGB, 0);
+    bindTexture("/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/images/awesomeface.png", GL_RGBA, 1);
 
     Shader myShader("/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/Shader/shader.vs", "/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/Shader/shader.fs");
     myShader.use();
