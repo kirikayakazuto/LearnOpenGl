@@ -215,7 +215,21 @@ int main()
     myShader.setInt("texture1", 0);
     myShader.setInt("texture2", 1);
 
+    // 开启深度检测
     glad_glEnable(GL_DEPTH_TEST);
+    
+    glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+    
+    glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
+    glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
+    
+    // 摄像机右轴
+    glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
+    
+    // 摄像机正y轴向量
+    glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
+    
     
     // render loop
     while (!glfwWindowShouldClose(window)) {
@@ -232,8 +246,17 @@ int main()
          model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));      // 沿x轴旋转
 //        model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
         // 观察矩阵
+//        glm::mat4 view = glm::mat4(1.0f);
+//        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+        // 构建look at矩阵
+//        glm::mat4 view = glm::mat4(1.0f);
+//        view = glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        float radius = 10.0f;
+        float camX = sin(glfwGetTime()) * radius;
+        float camZ = cos(glfwGetTime()) * radius;
         glm::mat4 view = glm::mat4(1.0f);
-        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+        view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+        
         // 投影矩阵
         glm::mat4 projection = glm::mat4(1.0f);
         projection = glm::perspective(glm::radians(45.0f), SCR_WIDTH / SCR_HEIGHT * 1.0f, 0.1f, 100.0f);
