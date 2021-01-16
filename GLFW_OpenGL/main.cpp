@@ -154,10 +154,10 @@ int main()
     glad_glBindBuffer(GL_ARRAY_BUFFER, 0);
     glad_glBindVertexArray(0);
     
-    bindTexture("/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/images/wall.jpg", GL_RGB, 0);
-    bindTexture("/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/images/awesomeface.png", GL_RGBA, 1);
+    bindTexture("/Users/denglang/workspace/LearnOpenGl/GLFW_OpenGL/images/wall.jpg", GL_RGB, 0);
+    bindTexture("/Users/denglang/workspace/LearnOpenGl/GLFW_OpenGL/images/awesomeface.png", GL_RGBA, 1);
 
-    Shader myShader("/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/Shader/shader.vs", "/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/Shader/shader.fs");
+    Shader myShader("/Users/denglang/workspace/LearnOpenGl/GLFW_OpenGL/Shader/shader.vs", "/Users/denglang/workspace/LearnOpenGl/GLFW_OpenGL/Shader/shader.fs");
     myShader.use();
     myShader.setInt("texture1", 0);
     myShader.setInt("texture2", 1);
