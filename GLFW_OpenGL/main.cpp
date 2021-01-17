@@ -40,6 +40,7 @@ void bindTexture(const char* path, GLenum type, int idx) {
     stbi_image_free(data);
 }
 
+
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -133,23 +134,57 @@ float texCoords[] = {
     0.5f, 1.0f
 };
 
-const char *vertexShaderSource = "#version 330 core\n"
-    "layout (location = 0) in vec3 aPos;\n"
-    "layout (location = 1) in vec3 aColor;\n"
-    "out vec3 outColor;\n"
-    "void main()\n"
-    "{\n"
-    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-    "outColor = aColor;\n"
-    "}\0";
-const char *fragmentShaderSource = "#version 330 core\n"
-    "out vec4 FragColor;\n"
-    "in vec3 outColor;\n"
-    "void main()\n"
-    "{\n"
-//    "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-    "   FragColor = vec4(outColor, 1.0);\n"
-    "}\n\0";
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
+
+
+
+float lastX = 400.0f, lastY = 300.0f;
+float pitch = 0.0f, yaw = -90.0f;
+bool firstMouse = true;
+void mouseCallback(GLFWwindow* window, double xpos, double ypos) {
+    if(firstMouse) {
+        lastX = xpos;
+        lastY = ypos;
+        firstMouse = false;
+    }
+    float xoffset = xpos - lastX;
+    float yoffset = lastY - ypos;
+    lastX = xpos;
+    lastY = ypos;
+    
+    float sensitivity = 0.05f;
+    xoffset *= sensitivity;
+    yoffset *= sensitivity;
+    
+    yaw += xoffset;
+    pitch += yoffset;
+    
+    if(pitch > 89.0f) pitch = 89.0f;
+    if(pitch < -89.0f) pitch = -89.0f;
+    
+    glm::vec3 front;
+    front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
+    front.y = sin(glm::radians(pitch));
+    front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
+    cameraFront = glm::normalize(front);
+}
+float fov = 45.0f;
+void scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
+    if(fov >= 1.0f && fov <= 45.0f) {
+        fov -= yoffset;
+    }
+    if(fov <= 1.0f) fov = 1.0f;
+    if(fov >= 45.0f) fov = 45.0f;
+}
+
+glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
+glm::vec3 toyColor(1.0f, 0.5f, 0.31f);
+
 
 int main()
 {
@@ -207,34 +242,29 @@ int main()
     glad_glBindBuffer(GL_ARRAY_BUFFER, 0);
     glad_glBindVertexArray(0);
     
-    bindTexture("/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/images/wall.jpg", GL_RGB, 0);
-    bindTexture("/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/images/awesomeface.png", GL_RGBA, 1);
+    bindTexture("/Users/denglang/workspace/LearnOpenGl/GLFW_OpenGL/images/wall.jpg", GL_RGB, 0);
+    bindTexture("/Users/denglang/workspace/LearnOpenGl/GLFW_OpenGL/images/awesomeface.png", GL_RGBA, 1);
 
-    Shader myShader("/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/Shader/shader.vs", "/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/Shader/shader.fs");
+    Shader myShader("/Users/denglang/workspace/LearnOpenGl/GLFW_OpenGL/Shader/shader.vs", "/Users/denglang/workspace/LearnOpenGl/GLFW_OpenGL/Shader/shader.fs");
     myShader.use();
     myShader.setInt("texture1", 0);
     myShader.setInt("texture2", 1);
 
     // 开启深度检测
     glad_glEnable(GL_DEPTH_TEST);
-    
-    glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
-    
-    glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-    glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
-    
-    // 摄像机右轴
-    glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-    glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
-    
-    // 摄像机正y轴向量
-    glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
-    
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+    glfwSetCursorPosCallback(window, mouseCallback);
+    glfwSetScrollCallback(window, scrollCallback);
     
     // render loop
     while (!glfwWindowShouldClose(window)) {
-        processInput(window);
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
         
+        processInput(window);
+
         // 清理颜色
         glad_glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glad_glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -249,17 +279,20 @@ int main()
 //        glm::mat4 view = glm::mat4(1.0f);
 //        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
         // 构建look at矩阵
-//        glm::mat4 view = glm::mat4(1.0f);
-//        view = glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        float radius = 10.0f;
-        float camX = sin(glfwGetTime()) * radius;
-        float camZ = cos(glfwGetTime()) * radius;
         glm::mat4 view = glm::mat4(1.0f);
-        view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+//        view = glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+//        float radius = 10.0f;
+//        float camX = sin(glfwGetTime()) * radius;
+//        float camZ = cos(glfwGetTime()) * radius;
+//        glm::mat4 view = glm::mat4(1.0f);
+//        view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+        
+        view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         
         // 投影矩阵
         glm::mat4 projection = glm::mat4(1.0f);
-        projection = glm::perspective(glm::radians(45.0f), SCR_WIDTH / SCR_HEIGHT * 1.0f, 0.1f, 100.0f);
+        // projection = glm::perspective(glm::radians(45.0f), SCR_WIDTH / SCR_HEIGHT * 1.0f, 0.1f, 100.0f);
+        projection = glm::perspective(glm::radians(fov), SCR_WIDTH / SCR_HEIGHT * 1.0f, 0.1f, 100.0f);
 
         // 模型矩阵
         int modelLoc = glad_glGetUniformLocation(myShader.ID, "model");
@@ -300,7 +333,22 @@ int main()
 void processInput(GLFWwindow *window) {
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+    
+    float cameraSpeed = 2.5f * deltaTime;
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        cameraPos += cameraSpeed * cameraFront;
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+        cameraPos -= cameraSpeed * cameraFront;
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+        cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+        cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    }
 }
+
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
