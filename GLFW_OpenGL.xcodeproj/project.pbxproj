@@ -77,9 +77,17 @@
 			path = images;
 			sourceTree = "<group>";
 		};
+		C9D2868025B6A80F001FCBB1 /* GLFW_OPENGL2 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = GLFW_OPENGL2;
+			sourceTree = "<group>";
+		};
 		C9F5C31A25B01781000A9B68 = {
 			isa = PBXGroup;
 			children = (
+				C9D2868025B6A80F001FCBB1 /* GLFW_OPENGL2 */,
 				C9F5C32525B01781000A9B68 /* GLFW_OpenGL */,
 				C9F5C32425B01781000A9B68 /* Products */,
 				C9F5C32D25B01804000A9B68 /* Frameworks */,

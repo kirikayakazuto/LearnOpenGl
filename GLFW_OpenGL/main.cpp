@@ -242,10 +242,10 @@ int main()
     glad_glBindBuffer(GL_ARRAY_BUFFER, 0);
     glad_glBindVertexArray(0);
     
-    bindTexture("/Users/denglang/workspace/LearnOpenGl/GLFW_OpenGL/images/wall.jpg", GL_RGB, 0);
-    bindTexture("/Users/denglang/workspace/LearnOpenGl/GLFW_OpenGL/images/awesomeface.png", GL_RGBA, 1);
+    bindTexture("/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/images/wall.jpg", GL_RGB, 0);
+    bindTexture("/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/images/awesomeface.png", GL_RGBA, 1);
 
-    Shader myShader("/Users/denglang/workspace/LearnOpenGl/GLFW_OpenGL/Shader/shader.vs", "/Users/denglang/workspace/LearnOpenGl/GLFW_OpenGL/Shader/shader.fs");
+    Shader myShader("/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/Shader/shader.vs", "/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/Shader/shader.fs");
     myShader.use();
     myShader.setInt("texture1", 0);
     myShader.setInt("texture2", 1);
@@ -273,20 +273,11 @@ int main()
         
         // 模型矩阵
         glm::mat4 model = glm::mat4(1.0f);
-         model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));      // 沿x轴旋转
-//        model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-        // 观察矩阵
-//        glm::mat4 view = glm::mat4(1.0f);
-//        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-        // 构建look at矩阵
+        model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));      // 沿x轴旋转
+        //model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+
+        // 观察矩阵        // 构建look at矩阵
         glm::mat4 view = glm::mat4(1.0f);
-//        view = glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-//        float radius = 10.0f;
-//        float camX = sin(glfwGetTime()) * radius;
-//        float camZ = cos(glfwGetTime()) * radius;
-//        glm::mat4 view = glm::mat4(1.0f);
-//        view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
-        
         view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         
         // 投影矩阵
@@ -311,8 +302,6 @@ int main()
         for(unsigned int i=0; i<10; i++) {
             glm::mat4 model = glm::mat4(1.0f);
             model = glm::translate(model, cubePositions[i]);
-//            float angle = 20.0f * i;
-//             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
             myShader.setMat4("model", model);
             
