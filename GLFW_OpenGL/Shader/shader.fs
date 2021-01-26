@@ -7,7 +7,9 @@ in vec2 TexCoords;
 uniform vec3 viewPos;       // 摄像机位置
 
 struct Light {
-    vec3 position;
+    vec3 direction;
+    // vec3 position;
+    
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
@@ -27,7 +29,8 @@ void main() {
     vec3 ambient = light.ambient * vec3(texture(material.diffuse, TexCoords));
     /** 灯光 */
     vec3 norm = normalize(normal);
-    vec3 lightDir = normalize(light.position - fragPos);
+    // vec3 lightDir = normalize(light.position - fragPos);
+    vec3 lightDir = normalize(-light.direction);
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse, TexCoords));
     /** 镜面光 */
