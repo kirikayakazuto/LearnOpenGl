@@ -189,6 +189,10 @@ int main() {
         myShader.setVec3("light.diffuse", diffuseColor);
         myShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
         myShader.setVec3("light.direction", -0.2f, -1.0f, -0.3f);
+        myShader.setFloat("light.constant", 1.0f);
+        myShader.setFloat("light.linear", 0.09f);
+        myShader.setFloat("light.quadratic", 0.02f);
+        
         
         myShader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
         myShader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
@@ -214,17 +218,16 @@ int main() {
 
         // 绑定VAO, 绘制图像
         glad_glBindVertexArray(VAO);
+
         
         for(unsigned int i=0; i<10; i++) {
+            model = glm::mat4(1.0f);
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * i;
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             myShader.setMat4("model", model);
-
             glad_glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices));
         }
-        
-        
         
         lightShader.use();
         lightShader.setMat4("view", view);

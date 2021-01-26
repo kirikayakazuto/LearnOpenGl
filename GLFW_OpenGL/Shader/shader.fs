@@ -7,12 +7,15 @@ in vec2 TexCoords;
 uniform vec3 viewPos;       // 摄像机位置
 
 struct Light {
-    vec3 direction;
-    // vec3 position;
+    vec3 position;
     
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
+    
+    float constant;
+    float linear;
+    float quadratic;
 };
 uniform Light light;
 
@@ -24,13 +27,13 @@ struct Material {
 uniform Material material;
 
 void main() {
-    
+    float dist = length(light.position - fragPos);
+    float attenuation = 1.0 / (light.constant + light.linear * dist + light.quadratic * (dist * dist));
     /** 环境光 */
     vec3 ambient = light.ambient * vec3(texture(material.diffuse, TexCoords));
     /** 灯光 */
     vec3 norm = normalize(normal);
-    // vec3 lightDir = normalize(light.position - fragPos);
-    vec3 lightDir = normalize(-light.direction);
+    vec3 lightDir = normalize(light.position - fragPos);
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse, TexCoords));
     /** 镜面光 */
@@ -40,5 +43,5 @@ void main() {
     vec3 specular = light.specular * spec * vec3(texture(material.specular, TexCoords));
     
     // 最终颜色等于 光的颜色 * 物品颜色
-    FragColor = vec4(ambient + diffuse + specular, 1.0);
+    FragColor = vec4(ambient*attenuation + diffuse*attenuation + specular*attenuation, 1.0);
 }
