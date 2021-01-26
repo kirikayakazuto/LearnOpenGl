@@ -39,7 +39,9 @@
 		C90FF8EC25B06AC6005C82D4 /* wall.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wall.jpg; sourceTree = "<group>"; };
 		C98E9E5225B7ECDF00494973 /* lightShader.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = lightShader.fs; sourceTree = "<group>"; };
 		C98E9E5325B7ECDF00494973 /* lightShader.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = lightShader.vs; sourceTree = "<group>"; };
+		C99B9D5225BFAB1B0058ACF0 /* container2_specular.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = container2_specular.png; sourceTree = "<group>"; };
 		C99E012C25B16440009A914C /* awesomeface.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = awesomeface.png; sourceTree = "<group>"; };
+		C9CF55B325BEFF3A00B4FD5C /* container2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = container2.png; sourceTree = "<group>"; };
 		C9F5C32325B01781000A9B68 /* GLFW_OpenGL */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GLFW_OpenGL; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9F5C32625B01781000A9B68 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		C9F5C32E25B01804000A9B68 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -78,6 +80,8 @@
 		C90FF8EB25B06A74005C82D4 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				C99B9D5225BFAB1B0058ACF0 /* container2_specular.png */,
+				C9CF55B325BEFF3A00B4FD5C /* container2.png */,
 				C99E012C25B16440009A914C /* awesomeface.png */,
 				C90FF8EC25B06AC6005C82D4 /* wall.jpg */,
 			);
