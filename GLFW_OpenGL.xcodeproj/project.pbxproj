@@ -14,6 +14,7 @@
 		C9F5C33325B018C2000A9B68 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F5C33225B018C2000A9B68 /* libglfw.3.3.dylib */; };
 		C9F5C33525B01F65000A9B68 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = C9F5C33425B01F65000A9B68 /* glad.c */; };
 		C9F8830225B9AC4F006B71DF /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9F8830025B9AC4F006B71DF /* camera.cpp */; };
+		C9F9321E25DE82D00029DB56 /* libassimp.5.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F9321D25DE82D00029DB56 /* libassimp.5.0.0.dylib */; };
 		C9FA7B6F25B17FB2004F3398 /* stbImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9FA7B6E25B17FB2004F3398 /* stbImage.cpp */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,7 @@
 		C9F5C33425B01F65000A9B68 /* glad.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glad.c; sourceTree = "<group>"; };
 		C9F8830025B9AC4F006B71DF /* camera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = camera.cpp; sourceTree = "<group>"; };
 		C9F8830125B9AC4F006B71DF /* camera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = camera.hpp; sourceTree = "<group>"; };
+		C9F9321D25DE82D00029DB56 /* libassimp.5.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.5.0.0.dylib; path = ../../../../usr/local/Cellar/assimp/5.0.1/lib/libassimp.5.0.0.dylib; sourceTree = "<group>"; };
 		C9FA7B6E25B17FB2004F3398 /* stbImage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = stbImage.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -57,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9F9321E25DE82D00029DB56 /* libassimp.5.0.0.dylib in Frameworks */,
 				77296E4725B2BAA800588EA4 /* libGLEW.2.2.0.dylib in Frameworks */,
 				C9F5C33325B018C2000A9B68 /* libglfw.3.3.dylib in Frameworks */,
 				C9F5C32F25B01804000A9B68 /* OpenGL.framework in Frameworks */,
@@ -125,6 +128,7 @@
 		C9F5C32D25B01804000A9B68 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C9F9321D25DE82D00029DB56 /* libassimp.5.0.0.dylib */,
 				77296E4625B2BAA800588EA4 /* libGLEW.2.2.0.dylib */,
 				C9F5C33225B018C2000A9B68 /* libglfw.3.3.dylib */,
 				C9F5C32E25B01804000A9B68 /* OpenGL.framework */,
@@ -319,6 +323,7 @@
 					/usr/local/Cellar/glew/2.1.0_1/lib,
 					/usr/local/Cellar/glfw/3.3.2/lib,
 					/usr/local/Cellar/glew/2.2.0_1/lib,
+					/usr/local/Cellar/assimp/5.0.1/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -334,6 +339,7 @@
 					/usr/local/Cellar/glew/2.1.0_1/lib,
 					/usr/local/Cellar/glfw/3.3.2/lib,
 					/usr/local/Cellar/glew/2.2.0_1/lib,
+					/usr/local/Cellar/assimp/5.0.1/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

@@ -7,6 +7,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+
 #include "./Shader.hpp"
 #include "./camera.cpp"
 
@@ -176,19 +177,20 @@ int main() {
         glad_glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         myShader.use();
-        myShader.setVec3("light.position", lightPos);
+        myShader.setVec3("light.position", camera.Position);
+        myShader.setVec3("light.direction", camera.Front);
+        myShader.setFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
+        myShader.setFloat("light.outerCutOff", glm::cos(glm::radians(17.5f)));
+        
         myShader.setVec3("viewPos", camera.Position);
         
         glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
-//        lightColor.x = sin(glfwGetTime() * 2.0f);
-//        lightColor.y = sin(glfwGetTime() * 0.7f);
-//        lightColor.z = sin(glfwGetTime() * 1.3f);
         glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
         glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
         myShader.setVec3("light.ambient", ambientColor);
         myShader.setVec3("light.diffuse", diffuseColor);
         myShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
-        myShader.setVec3("light.direction", -0.2f, -1.0f, -0.3f);
+        
         myShader.setFloat("light.constant", 1.0f);
         myShader.setFloat("light.linear", 0.09f);
         myShader.setFloat("light.quadratic", 0.02f);
