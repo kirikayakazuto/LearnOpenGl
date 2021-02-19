@@ -15,6 +15,8 @@
 		C9F5C33525B01F65000A9B68 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = C9F5C33425B01F65000A9B68 /* glad.c */; };
 		C9F8830225B9AC4F006B71DF /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9F8830025B9AC4F006B71DF /* camera.cpp */; };
 		C9F9321E25DE82D00029DB56 /* libassimp.5.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F9321D25DE82D00029DB56 /* libassimp.5.0.0.dylib */; };
+		C9F9322125DE84590029DB56 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9F9321F25DE84590029DB56 /* Mesh.cpp */; };
+		C9F9322425DE94EE0029DB56 /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9F9322225DE94EE0029DB56 /* Model.cpp */; };
 		C9FA7B6F25B17FB2004F3398 /* stbImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9FA7B6E25B17FB2004F3398 /* stbImage.cpp */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +53,10 @@
 		C9F8830025B9AC4F006B71DF /* camera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = camera.cpp; sourceTree = "<group>"; };
 		C9F8830125B9AC4F006B71DF /* camera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = camera.hpp; sourceTree = "<group>"; };
 		C9F9321D25DE82D00029DB56 /* libassimp.5.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.5.0.0.dylib; path = ../../../../usr/local/Cellar/assimp/5.0.1/lib/libassimp.5.0.0.dylib; sourceTree = "<group>"; };
+		C9F9321F25DE84590029DB56 /* Mesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
+		C9F9322025DE84590029DB56 /* Mesh.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Mesh.hpp; sourceTree = "<group>"; };
+		C9F9322225DE94EE0029DB56 /* Model.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
+		C9F9322325DE94EE0029DB56 /* Model.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Model.hpp; sourceTree = "<group>"; };
 		C9FA7B6E25B17FB2004F3398 /* stbImage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = stbImage.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -121,6 +127,10 @@
 				C9FA7B6E25B17FB2004F3398 /* stbImage.cpp */,
 				C9F8830025B9AC4F006B71DF /* camera.cpp */,
 				C9F8830125B9AC4F006B71DF /* camera.hpp */,
+				C9F9321F25DE84590029DB56 /* Mesh.cpp */,
+				C9F9322025DE84590029DB56 /* Mesh.hpp */,
+				C9F9322225DE94EE0029DB56 /* Model.cpp */,
+				C9F9322325DE94EE0029DB56 /* Model.hpp */,
 			);
 			path = GLFW_OpenGL;
 			sourceTree = "<group>";
@@ -193,9 +203,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9F9322125DE84590029DB56 /* Mesh.cpp in Sources */,
 				C9F5C32725B01781000A9B68 /* main.cpp in Sources */,
 				C9FA7B6F25B17FB2004F3398 /* stbImage.cpp in Sources */,
 				C90FF8E625B054F8005C82D4 /* Shader.cpp in Sources */,
+				C9F9322425DE94EE0029DB56 /* Model.cpp in Sources */,
 				C9F5C33525B01F65000A9B68 /* glad.c in Sources */,
 				C9F8830225B9AC4F006B71DF /* camera.cpp in Sources */,
 			);
