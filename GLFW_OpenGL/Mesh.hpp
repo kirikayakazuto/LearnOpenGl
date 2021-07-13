@@ -15,6 +15,10 @@
 #include <string>
 #include <vector>
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 #include <glm/glm.hpp>
 
 #include "Shader.hpp"
@@ -32,7 +36,7 @@ struct Vertex {
 struct Texture {
     unsigned int id;
     string type;
-    string path;
+    aiString path;
 };
 
 class Mesh {

@@ -2,15 +2,15 @@
 #include <GLFW/glfw3.h>
 #include <math.h>
 #include <iostream>
-#include <stb_image.h>
+#include "stb_image.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <stdlib.h>
 
 
 #include "./Shader.hpp"
 #include "./camera.cpp"
-
 
 
 void processInput(GLFWwindow *window);
@@ -140,15 +140,23 @@ int main() {
     glad_glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glad_glBindVertexArray(0);
     
-    bindTexture("/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/images/container2.png", GL_RGBA, 0);
-    bindTexture("/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/images/container2_specular.png", GL_RGBA, 1);
+//    const char* symlinkpath = "images/container2.png";
+//    char* actualpath;
+//    actualpath = realpath(symlinkpath, NULL);
+//    if(actualpath != NULL) {
+//        std::cout << actualpath << std::endl;
+//    }
 
-    Shader myShader("/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/Shader/shader.vs", "/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/Shader/shader.fs");
+    
+    bindTexture("/Users/joudeng/opengl/LearnOpenGL/GLFW_OpenGL/images/container2.png", GL_RGBA, 0);
+    bindTexture("/Users/joudeng/opengl/LearnOpenGL/GLFW_OpenGL/images/container2_specular.png", GL_RGBA, 1);
+
+    Shader myShader("/Users/joudeng/opengl/LearnOpenGL/GLFW_OpenGL/Shader/shader.vs", "/Users/joudeng/opengl/LearnOpenGL/GLFW_OpenGL/Shader/shader.fs");
     myShader.use();
     myShader.setInt("material.diffuse", 0);
     myShader.setInt("material.specular", 1);
     
-    Shader lightShader("/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/Shader/lightShader.vs", "/Users/hortor/self_project/GLFW_OpenGL/GLFW_OpenGL/Shader/lightShader.fs");
+    Shader lightShader("/Users/joudeng/opengl/LearnOpenGL/GLFW_OpenGL/Shader/lightShader.vs", "/Users/joudeng/opengl/LearnOpenGL/GLFW_OpenGL/Shader/lightShader.fs");
 
     
     unsigned int lightVAO;

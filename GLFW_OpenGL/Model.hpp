@@ -13,7 +13,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <stb_image.h>
+#include "stb_image.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -21,6 +21,8 @@
 #include "Mesh.hpp"
 #include "Shader.hpp"
 
+#include <stdio.h>
+#include <string.h>
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -35,7 +37,7 @@ class Model
 {
 public:
     // model data
-    vector<Texture> textures_loaded;    // stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
+    vector<Texture> textures_loaded;    // stores all the textures loaded so far, optimization to make sure textures aren't loaded more than
     vector<Mesh>    meshes;
     string directory;
     bool gammaCorrection;
@@ -187,10 +189,8 @@ private:
             mat->GetTexture(type, i, &str);
             // check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
             bool skip = false;
-            for(unsigned int j = 0; j < textures_loaded.size(); j++)
-            {
-                if(std::strcmp(textures_loaded[j].path.data(), str.C_Str()) == 0)
-                {
+            for(unsigned int j = 0; j < textures_loaded.size(); j++) {
+                if(strcmp(textures_loaded[j].path.C_Str(), str.C_Str()) == 0) {
                     textures.push_back(textures_loaded[j]);
                     skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
                     break;

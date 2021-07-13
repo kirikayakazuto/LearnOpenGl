@@ -12,6 +12,7 @@ Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture
     this->vertices = vertices;
     this->indices = indices;
     this->textures = textures;
+    setupMesh();
 }
 
 void Mesh::setupMesh() {
