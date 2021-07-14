@@ -7,10 +7,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <stdlib.h>
-
+#include <filesystem>
 
 #include "./Shader.hpp"
 #include "./camera.cpp"
+#include "./Model.hpp"
 
 
 void processInput(GLFWwindow *window);
@@ -81,14 +82,14 @@ glm::vec3 cubePositions[] = {
     glm::vec3(-1.3f,  1.0f, -1.5f)
 };
 
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(glm::vec3(-10.0f, 10.0f, 2.0f));
 float lastX = 400.0f, lastY = 300.0f;
 bool firstMouse = true;
 
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+glm::vec3 lightPos(-10.0f, 10.0f, 2.0f);
 
 
 int main() {
@@ -102,6 +103,7 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
+    glfwWindowHint(GLFW_SAMPLES, 4);
     // glfw window creation
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
     if (window == NULL) {
@@ -115,6 +117,8 @@ int main() {
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         return -1;
     }
+    
+    glEnable(GL_MULTISAMPLE);
 
     unsigned int VAO;
     glad_glGenVertexArrays(1, &VAO);
@@ -157,7 +161,11 @@ int main() {
     myShader.setInt("material.specular", 1);
     
     Shader lightShader("/Users/joudeng/opengl/LearnOpenGL/GLFW_OpenGL/Shader/lightShader.vs", "/Users/joudeng/opengl/LearnOpenGL/GLFW_OpenGL/Shader/lightShader.fs");
+    
+    Shader modelShader("/Users/joudeng/opengl/LearnOpenGL/GLFW_OpenGL/Shader/model.vs", "/Users/joudeng/opengl/LearnOpenGL/GLFW_OpenGL/Shader/model.fs");
 
+
+    Model ourModel("/Users/joudeng/opengl/LearnOpenGL/GLFW_OpenGL/models/nanosuit.obj");
     
     unsigned int lightVAO;
     glad_glGenVertexArrays(1, &lightVAO);
@@ -191,27 +199,27 @@ int main() {
         myShader.setVec3("light.direction", camera.Front);
         myShader.setFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
         myShader.setFloat("light.outerCutOff", glm::cos(glm::radians(17.5f)));
-        
+
         myShader.setVec3("viewPos", camera.Position);
-        
+
         glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
         glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
         glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
         myShader.setVec3("light.ambient", ambientColor);
         myShader.setVec3("light.diffuse", diffuseColor);
         myShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
-        
+
         myShader.setFloat("light.constant", 1.0f);
         myShader.setFloat("light.linear", 0.09f);
         myShader.setFloat("light.quadratic", 0.02f);
-        
-        
-        myShader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
-        myShader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
+
+
+        myShader.setVec3("material.ambient", 1.0f, 0.8f, 0.6f);
+        myShader.setVec3("material.diffuse", 1.0f, 0.8f, 0.6f);
         myShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
         myShader.setFloat("material.shininess", 32.0f);
-        
-        
+
+
         // 模型矩阵
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(0.0f, 1.0f, 0.0f));      // 沿x轴旋转
@@ -221,25 +229,14 @@ int main() {
         glm::mat4 view = glm::mat4(1.0f);
         view = camera.GetViewMatrix();
         myShader.setMat4("view", view);
-        
+
         // 投影矩阵
         glm::mat4 projection = glm::mat4(1.0f);
-        // projection = glm::perspective(glm::radians(45.0f), SCR_WIDTH / SCR_HEIGHT * 1.0f, 0.1f, 100.0f);
         projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         myShader.setMat4("projection", projection);
-
-        // 绑定VAO, 绘制图像
-        glad_glBindVertexArray(VAO);
-
         
-        for(unsigned int i=0; i<10; i++) {
-            model = glm::mat4(1.0f);
-            model = glm::translate(model, cubePositions[i]);
-            float angle = 20.0f * i;
-            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            myShader.setMat4("model", model);
-            glad_glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices));
-        }
+        
+        ourModel.Draw(myShader);
         
         lightShader.use();
         lightShader.setMat4("view", view);
@@ -250,8 +247,26 @@ int main() {
         model = glm::scale(model, glm::vec3(0.2f));
         lightShader.setMat4("model", model);
         
+//        modelShader.use();
+//
+//        glm::mat4 projection = glm::mat4(1.0f);
+//        projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+//        modelShader.setMat4("projection", projection);
+//
+//        glm::mat4 view = glm::mat4(1.0f);
+//        view = camera.GetViewMatrix();
+//        modelShader.setMat4("view", view);
+//
+//        glm::mat4 model = glm::mat4(1.0f);
+//        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+//        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+//        modelShader.setMat4("model", model);
+        
+        
+        
         glad_glBindVertexArray(lightVAO);
         glad_glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices));
+        
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);

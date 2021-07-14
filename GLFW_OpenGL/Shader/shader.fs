@@ -46,12 +46,12 @@ void main() {
     vec3 specular = light.specular * spec * vec3(texture(material.specular, TexCoords));
 
     
-    float theta = dot(lightDir, normalize(-light.direction));
-    float epsilon = light.cutOff - light.outerCutOff;
-    float intensity = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
+//    float theta = dot(lightDir, normalize(-light.direction));
+//    float epsilon = light.cutOff - light.outerCutOff;
+//    float intensity = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
     
-    diffuse *= intensity;
-    specular *= intensity;
+//    diffuse *= intensity;
+//    specular *= intensity;
     FragColor = vec4(ambient + diffuse + specular, 1.0);
 //    if(theta > light.cutOff) {
 //        // 最终颜色等于 光的颜色 * 物品颜色
